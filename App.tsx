@@ -9,37 +9,57 @@ export default function App() {
     const [books, setBooks] = useState([]);
     // const [apiKey, setApiKey] = useState("AIzaSyCkf4kyqfsOvHXSc7Jhr-9Z8Z-w1i_aGPo");
     const [loading, setLoading] = useState(false);
-    const [title, setTtitle] = useState([]);
+
+    const URL = 'https://www.googleapis.com/books/v1/volumes?q=flowers&filter=free-ebooks&key=';
 
     // fetch data
+    // useEffect(() => {
+    //   fetch(URL)
+    //     .then((response) => response.json())
+    //     .then((json) => {
+    //       setBooks(json.items);
+    //     })
+    //     .catch((error) => alert(error))
+    //     .finally(() => setLoading(false))
+    // });
+    const getBooks = async () => {
+      try {
+
+        const response = await fetch(
+          URL
+        );
+        const json = await response.json();
+        setBooks(json.items);
+        setLoading(false);
+
+      } catch (error) {
+
+        alert(error);
+
+      }
+    }
+
     useEffect(() => {
-      fetch('https://www.googleapis.com/books/v1/volumes?q=flowers&filter=free-ebooks&key=')
-        .then((response) => response.json())
-        .then((json) => {
-          setBooks(json.items);
-          setTtitle(json.items[0].volumeInfo.title);
-        })
-        .catch((error) => alert(error))
-        .finally(() => setLoading(false))
-    });
+      getBooks();
+    }, []);
+  
 
   return (
     <SafeAreaView style={styles.container}>
       {
-
+        // if is loading show loading indicator
         loading ? (
           <ActivityIndicator />
-        ) :
-        
-        <Text>{title}</Text>
-        
-        // <FlatList data={books} keyExtractor={({ id }, index) => id}
-      
-        // renderItem={({item}) => (
-        //   <Text>{item.volumeInfo.title}</Text>
-        // )}
-
-        // />
+        ) : (
+          <FlatList
+            data={books}
+            keyExtractor={({ item }, index) => item.id}
+            renderItem={({ item }) => (
+              <Text>{item}</Text>
+            )}
+          />
+          // <Text>{books}</Text>
+        )
       }
       
     </SafeAreaView>
