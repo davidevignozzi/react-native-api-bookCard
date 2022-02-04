@@ -6,44 +6,43 @@ import typography from './style/typography';
 import { useEffect, useState } from 'react';
 
 export default function App() {
-    const [books, setBooks] = useState([]);
-    // const [apiKey, setApiKey] = useState("AIzaSyCkf4kyqfsOvHXSc7Jhr-9Z8Z-w1i_aGPo");
-    const [loading, setLoading] = useState(false);
+  const [books, setBooks] = useState([]);
+  // const [apiKey, setApiKey] = useState("AIzaSyCkf4kyqfsOvHXSc7Jhr-9Z8Z-w1i_aGPo");
+  const [loading, setLoading] = useState(false);
 
-    const URL = 'https://www.googleapis.com/books/v1/volumes?q=flowers&filter=free-ebooks&key=';
+  const URL = 'https://www.googleapis.com/books/v1/volumes?q=flowers&filter=free-ebooks&key=';
 
-    // fetch data
-    // useEffect(() => {
-    //   fetch(URL)
-    //     .then((response) => response.json())
-    //     .then((json) => {
-    //       setBooks(json.items);
-    //     })
-    //     .catch((error) => alert(error))
-    //     .finally(() => setLoading(false))
-    // });
-    const getBooks = async () => {
-      try {
+  // fetch data
+  // useEffect(() => {
+  //   fetch(URL)
+  //     .then((response) => response.json())
+  //     .then((json) => {
+  //       setBooks(json.items);
+  //     })
+  //     .catch((error) => alert(error))
+  //     .finally(() => setLoading(false))
+  // });
+  const getBooks = async () => {
+    try {
 
-        const response = await fetch(
-          URL
-        );
-        const json = await response.json();
-        setBooks(json.items);
-        setLoading(false);
+      const response = await fetch(
+        URL
+      );
+      const json = await response.json();
+      setBooks(json.items);
+      setLoading(false);
 
-      } catch (error) {
+    } catch (error) {
 
-        alert(error);
+      alert(error);
 
-      }
     }
+  }
 
-    useEffect(() => {
-      getBooks();
-    }, []);
+  useEffect(() => {
+    getBooks();
+  }, []);
   
-
   return (
     <SafeAreaView style={styles.container}>
       {
@@ -51,14 +50,14 @@ export default function App() {
         loading ? (
           <ActivityIndicator />
         ) : (
-          <FlatList
-            data={books}
-            keyExtractor={({ item }, index) => item.id}
-            renderItem={({ item }) => (
-              <Text>{item}</Text>
-            )}
-          />
-          // <Text>{books}</Text>
+          // <FlatList
+          //   data={books}
+          //   keyExtractor={({ item }, index) => item}
+          //   renderItem={({ item }) => (
+          //     <Text>{item}</Text>
+          //   )}
+          // />
+          <Text>{books.volumeInfo.title}</Text>
         )
       }
       
