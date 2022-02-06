@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, Text, View, Image } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import typography from '../style/typography';
 
 
@@ -9,17 +9,18 @@ const Card = () => {
     const [loading, setLoading] = useState(false);
   
     const [apiKey, setApiKey] = useState("AIzaSyALTpmQSxWQA1g0La-42nD1L7CqhFbK4TM");
-    const URL = 'https://www.googleapis.com/books/v1/volumes?q=flowers&filter=free-ebooks&key=';
+    const URL = 'https://www.googleapis.com/books/v1/volumes?q=javascript=free-ebooks&key=';
+    
 
-    // CALL API
+    // ** CALL API
     const getBooks = async () => {
         try {
-        const response = await fetch(URL + apiKey);
-        const json = await response.json();
-        setBooks(json.items);
-        setLoading(false);
+            const response = await fetch(URL + apiKey);
+            const json = await response.json();
+            setBooks(json.items);
+            setLoading(false);
         } catch (error) {
-        alert(error);
+            alert(error);
         }
     }
 
@@ -27,32 +28,52 @@ const Card = () => {
         getBooks();
     }, []);
 
+    // ** STYLE
     const style = StyleSheet.create({
         cardContainer:{
-            width: 300,
-            borderWidth: 2,
-            borderColor: 'black',
-            justifyContent: 'center'
+            position: 'relative',
+            width: 170,
+            height: 320,
+            backgroundColor: 'rgba(250, 250, 250, 0.4)',
+            shadowColor: "#000",
+            shadowOffset: {
+                width: 2,
+                height: 10,
+            },
+            shadowOpacity: 0.40,
+            shadowRadius: 10.32,
+            elevation: 18,
+            borderRadius: 30,
+            justifyContent: 'center',
+            marginHorizontal: 16,
         },
         imageContainer:{
-            justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            shadowColor: "#000",
+            shadowOffset: {
+                width: 1,
+                height: 8,
+            },
+            shadowOpacity: 0.62,
+            shadowRadius: 10.32,
         },
         cardImage:{
             width: 100,
-            height: 200
+            height: 150,
         },
         infoCardContainer:{
             justifyContent: 'center',
             alignItems: 'center',
+            marginTop: 30,
         },
         cardTitle:{
-            width: 200,
+            width: 130,
             fontSize: 20,
             fontWeight: '600',
+            marginBottom: 7,
         },
         cardAuthor:{
-            width: 180,
+            width: 130,
             fontSize: 18,
             fontWeight: '400'
         },
@@ -63,28 +84,35 @@ const Card = () => {
         loading ? (
             <ActivityIndicator />
         ) : (
-        <FlatList
-        data={books}
-        key={books.id}
-        renderItem={({ item }) => (
-            <View style={style.cardContainer}>
-                {/* IMG */}
-                <View style={style.imageContainer}>
-                    <Image style={style.cardImage}
-                    source={{
-                        uri: item.volumeInfo.imageLinks.thumbnail,
-                    }}
-                    />
-                </View>
-                <View style={style.infoCardContainer}>
-                    {/* TITLE */}
-                    <Text style={[style.cardTitle]}>{item.volumeInfo.title}</Text>
-                    {/* AUTHORS */}
-                    <Text style={style.cardAuthor}>{item.volumeInfo.authors}</Text>
-                </View>
-            </View>
-        )}
-        />
+            <FlatList
+                horizontal
+                pagingEnabled={true}
+                showsHorizontalScrollIndicator={false}
+                legacyImplementation={false}
+                data={books}
+                key={books.id}
+                renderItem={({ item }) => (
+                    <View style={style.cardContainer}>
+                        {/* IMG */}
+                        <View style={style.imageContainer}>
+                            
+                            <Image style={style.cardImage}
+                            source={{
+                                uri: item.volumeInfo.imageLinks.thumbnail,
+                            }}
+                            />
+
+                        </View>
+                        <View style={style.infoCardContainer}>
+                            {/* TITLE */}
+                            <Text style={[style.cardTitle]}>{item.volumeInfo.title}</Text>
+                            {/* AUTHORS */}
+                            <Text style={style.cardAuthor}>By {item.volumeInfo.authors}</Text>
+                        </View>
+                    </View>
+                )}
+            />
+        
     ));   
 }
 
