@@ -33,6 +33,9 @@ const Card = () => {
 
     // ** STYLE
     const style = StyleSheet.create({
+        list:{
+            height: 350,
+        },
         cardContainer:{
             position: 'relative',
             width: 170,
@@ -87,35 +90,39 @@ const Card = () => {
         loading ? (
             <ActivityIndicator />
         ) : (
-            <FlatList
-                horizontal
-                pagingEnabled={true}
-                showsHorizontalScrollIndicator={false}
-                legacyImplementation={false}
-                data={books}
-                key={books.id}
-                renderItem={({ item }) => (
-                    <View style={style.cardContainer}>
-                        {/* IMG */}
-                        <View style={style.imageContainer}>
-                            
-                            <Image style={style.cardImage}
-                            source={{
-                                uri: item.volumeInfo.imageLinks.thumbnail,
-                            }}
-                            />
+            <View style={style.list}>
+                <FlatList
+                    horizontal
+                    pagingEnabled={true}
+                    showsHorizontalScrollIndicator={false}
+                    legacyImplementation={false}
+                    data={books}
+                    key={books.id}
+                    renderItem={({ item }) => (
+                        <View style={style.cardContainer}>
+                            {/* IMG */}
+                            <View style={style.imageContainer}>
+                                
+                                <Image style={style.cardImage}
+                                source={{
+                                    uri: item.volumeInfo.imageLinks.thumbnail,
+                                }}
+                                />
 
+                            </View>
+                            <View style={style.infoCardContainer}>
+                                {/* TITLE */}
+                                <Text style={[style.cardTitle]}>{item.volumeInfo.title}</Text>
+                                {/* AUTHORS */}
+                                <Text style={style.cardAuthor}>By {item.volumeInfo.authors}</Text>
+                            </View>
                         </View>
-                        <View style={style.infoCardContainer}>
-                            {/* TITLE */}
-                            <Text style={[style.cardTitle]}>{item.volumeInfo.title}</Text>
-                            {/* AUTHORS */}
-                            <Text style={style.cardAuthor}>By {item.volumeInfo.authors}</Text>
-                        </View>
-                    </View>
-                )}
-            />
-    ));   
+                    )}
+                />
+            </View>
+            
+        )
+    );   
 }
 
 export default Card;

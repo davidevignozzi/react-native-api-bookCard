@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import {  SafeAreaView, StyleSheet, } from 'react-native';
 import Card from './UI/card';
 import  palette  from './style/palette';
 import typography from './style/typography';
@@ -11,7 +11,6 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <Card />
-      
     </SafeAreaView>
   );
 }
