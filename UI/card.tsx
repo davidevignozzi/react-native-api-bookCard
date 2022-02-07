@@ -8,9 +8,12 @@ const Card = () => {
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(false);
   
+
+    // GOOGLE BOOK API
     const [apiKey, setApiKey] = useState("AIzaSyALTpmQSxWQA1g0La-42nD1L7CqhFbK4TM");
     const URL = 'https://www.googleapis.com/books/v1/volumes?q=javascript=free-ebooks&key=';
     
+    // TODO NEW API { find book api with categories + best seller }
 
     // ** CALL API
     const getBooks = async () => {
@@ -112,7 +115,6 @@ const Card = () => {
                     </View>
                 )}
             />
-        
     ));   
 }
 
